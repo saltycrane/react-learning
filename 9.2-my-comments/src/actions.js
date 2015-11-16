@@ -1,4 +1,4 @@
-import fetch from "isomorphic-fetch";
+import * as parse from "./parse-api";
 
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS";
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
@@ -28,23 +28,17 @@ function postComment(comment) {
 export function fetchComments() {
     return dispatch => {
         dispatch(requestComments());
-        return fetch("/api/comments")
-            .then(res => res.json())
-            .then(json => dispatch(receiveComments(json)));
+        parse.getComments(results => dispatch(receiveComments(results)));
     };
 }
 
 export function submitComment(comment) {
     return dispatch => {
         dispatch(postComment(comment));
-        return fetch("/api/comments", {
-            method: "post",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(comment)
-        }).then(res => res.json())
-            .then(json => dispatch(receiveComments(json)));
+        // The second argument, `() => dispatch(fetchComments())` is used
+        // to update the comment list after the comment is POSTed successfully.
+        // TODO: change to only add the new comment to the list instead
+        // of re-requesting the whole list.
+        parse.saveComment(comment, () => dispatch(fetchComments()));
     };
 }
