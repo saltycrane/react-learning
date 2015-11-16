@@ -25,9 +25,17 @@ var common = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "Sample App"
+            title: "Comments",
+            template: "src/index-template.html",
+            inject: "body"
         })
-    ]
+    ],
+    sassLoader: {
+        includePaths: [
+            path.resolve(__dirname, "node_modules/bootstrap-sass/assets/stylesheets"),
+            path.resolve(__dirname, "node_modules/bootstrap-sass/assets/fonts")
+        ]
+    }
 };
 
 if (TARGET === "startdev" || !TARGET) {
@@ -67,7 +75,10 @@ else if (TARGET === "build") {
         entry: {
             // separate entries for "app" and "vendor" code
             app: APP_PATH,
-            vendor: Object.keys(pkg.dependencies)
+            // the vendor bundle includes all the modules in the "dependencies"
+            // section of package.json except for "bootstrap-sass" (because I
+            // don't need to bootstrap javascript right now).
+            vendor: Object.keys(pkg.dependencies).filter(item => item !== "bootstrap-sass")
         },
         output: {
             path: BUILD_PATH,
