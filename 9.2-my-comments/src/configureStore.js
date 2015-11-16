@@ -1,15 +1,38 @@
-import { createStore, applyMiddleware } from "redux";
+/* global __DEV__ */
+
+import { createStore, applyMiddleware, compose } from "redux";
+import { devTools, persistState } from "redux-devtools";
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
 import rootReducer from "./reducers";
 
+let finalCreateStore;
 const loggerMiddleware = createLogger();
 
-const createStoreWithMiddleware = applyMiddleware(
-    thunkMiddleware,
-    loggerMiddleware
-)(createStore);
+// const createStoreWithMiddleware = applyMiddleware(
+//     thunkMiddleware,
+//     loggerMiddleware
+// )(createStore);
+
+// export default function configureStore(initialState) {
+//     return createStoreWithMiddleware(rootReducer, initialState);
+// }
+
+if (__DEV__) {
+    finalCreateStore = compose(
+        applyMiddleware(
+            thunkMiddleware,
+            loggerMiddleware
+        ),
+        devTools(),
+        persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+    )(createStore);
+} else {
+    finalCreateStore = applyMiddleware(
+        thunkMiddleware
+    )(createStore);
+}
 
 export default function configureStore(initialState) {
-    return createStoreWithMiddleware(rootReducer, initialState);
+    return finalCreateStore(rootReducer, initialState);
 }

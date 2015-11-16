@@ -1,26 +1,118 @@
+var Clean = require("clean-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var merge = require("webpack-merge");
 var path = require("path");
+var pkg = require("./package.json");
 var webpack = require("webpack");
 
-module.exports = {
-    devtool: "eval-source-map",
+var TARGET = process.env.npm_lifecycle_event;
+var ROOT_PATH = path.resolve(__dirname);
+var APP_PATH = path.resolve(ROOT_PATH, "src");
+var BUILD_PATH = path.resolve(ROOT_PATH, "dist");
+
+var common = {
     entry: [
-        "webpack-dev-server/client?http://localhost:3000",
-        "webpack/hot/only-dev-server",
-        "./src/index"
+        APP_PATH
     ],
+    resolve: {
+        extensions: ["", ".js", ".jsx"]
+    },
     output: {
-        path: path.join(__dirname, "dist"),
-        filename: "bundle.js",
-        publicPath: "/static/"
+        path: BUILD_PATH,
+        filename: "bundle.js"
+        // publicPath: "/static/"
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
-    ],
-    module: {
-        loaders: [{
-            test: /\.js$/,
-            loaders: ["react-hot", "babel"],
-            include: path.join(__dirname, "src")
-        }]
-    }
+        new HtmlWebpackPlugin({
+            title: "Sample App"
+        })
+    ]
 };
+
+if (TARGET === "startdev" || !TARGET) {
+    module.exports = merge(common, {
+        devtool: "eval-source-map",
+        devServer: {
+            historyApiFallback: true,
+            hot: true,
+            inline: true,
+            progress: true
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                __DEV__: true
+            }),
+            new webpack.HotModuleReplacementPlugin()
+        ],
+        module: {
+            loaders: [
+                {
+                    test: /\.scss$/,
+                    loaders: ["style", "css", "sass"],
+                    include: APP_PATH
+                },
+                {
+                    test: /\.js$/,
+                    loaders: ["react-hot", "babel"],
+                    include: APP_PATH
+                }
+            ]
+        }
+    });
+}
+else if (TARGET === "build") {
+    module.exports = merge(common, {
+        devtool: "source-map",
+        entry: {
+            // separate entries for "app" and "vendor" code
+            app: APP_PATH,
+            vendor: Object.keys(pkg.dependencies)
+        },
+        output: {
+            path: BUILD_PATH,
+            filename: "[name].[chunkhash].js?"
+        },
+        plugins: [
+            // used to set feature flags which can be accessed by the app
+            new webpack.DefinePlugin({
+                __DEV__: false
+            }),
+            // used to delete the "dist" directory before building
+            new Clean(["dist"]),
+            // used to create the CSS file
+            new ExtractTextPlugin("style.[chunkhash].css"),
+            // used to make the React library size slightly smaller
+            new webpack.DefinePlugin({
+                "process.env": {
+                    "NODE_ENV": JSON.stringify("production")
+                }
+            }),
+            // used to minimize the javascript
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                }
+            }),
+            // used to separate the vendor JS from the app JS
+            new webpack.optimize.CommonsChunkPlugin(
+                "vendor",
+                "[name].[chunkhash].js"
+            )
+        ],
+        module: {
+            loaders: [
+                {
+                    test: /\.scss$/,
+                    loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader"),
+                    include: APP_PATH
+                },
+                {
+                    test: /\.js$/,
+                    loaders: ["babel"],
+                    include: APP_PATH
+                }
+            ]
+        }
+    });
+}
