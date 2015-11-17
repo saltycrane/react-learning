@@ -5,24 +5,33 @@ Parse.initialize("rdOxoEPZqN4I8RvIkmcWmPK0xcaR7EfrIDj0WFYh", "EFEekvA7WVsPTN0SGi
 
 let Comment = Parse.Object.extend("Comment");
 
-export function saveComment(data, callback) {
-    let comment = new Comment();
-    comment.save(data).then(function(object) {
-        callback(object.toJSON());
-    });
-}
-
 export function getComments(callback) {
     let query = new Parse.Query(Comment);
-    query.find({
-        success: function(results) {
+    query.find()
+        .done(function(results) {
             const jsonResults = results.map(function(item) {
                 return item.toJSON();
             });
             callback(jsonResults);
-        },
-        error: function(error) {
+        })
+        .fail(function(error) {
             console.error("Error: " + error.code + " " + error.meessage);
-        }
-    });
+        });
+}
+
+export function saveComment(data, callback) {
+    let comment = new Comment();
+    comment.save(data)
+        .done(function(object) {
+            callback(object.toJSON());
+        });
+}
+
+export function deleteComment(id, callback) {
+    let comment = new Comment();
+    comment.id = id;
+    comment.destroy()
+        .done(function(object) {
+            callback(object.toJSON());
+        });
 }

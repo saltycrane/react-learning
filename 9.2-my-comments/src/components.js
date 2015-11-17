@@ -4,17 +4,23 @@ import React, { Component } from "react";
 
 class Comment extends Component {
     rawMarkup() {
-        var rawMarkup = marked(this.props.children.toString(), {sanitize: true});
+        const { commentObj } = this.props;
+        var rawMarkup = marked(commentObj.text.toString(), {sanitize: true});
         return { __html: rawMarkup };
     }
-
     render() {
+        const { commentObj, onDelete } = this.props;
         return (
             <div className="comment well">
                 <h5 className="commentAuthor">
-                    {this.props.author}
+                    {commentObj.author}&nbsp;
+                    <small>posted {commentObj.createdAt}</small>
                 </h5>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />
+                <button
+                    className="btn btn-default delete"
+                    onClick={onDelete.bind(null, commentObj.objectId)}
+                >Delete</button>
             </div>
         );
     }
@@ -23,11 +29,10 @@ class Comment extends Component {
 
 export class CommentList extends Component {
     render() {
-        var commentNodes = this.props.data.map(function(comment) {
+        const { data, onDelete } = this.props;
+        const commentNodes = data.map(function(comment) {
             return (
-                <Comment author={comment.author}>
-                    {comment.text}
-                </Comment>
+                <Comment commentObj={comment} onDelete={onDelete} />
             );
         });
         return (
@@ -40,8 +45,8 @@ export class CommentList extends Component {
 
 
 export class CommentForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(e) {

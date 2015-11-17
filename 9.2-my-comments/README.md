@@ -30,4 +30,6 @@ Links
 
 To Do
 -----
- - add delete, filtering, tags
+ - add filtering, tags
+ - comment detail view
+ - animation for add and delete
