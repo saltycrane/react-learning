@@ -23,7 +23,7 @@ class AsyncApp extends Component {
         const { dispatch } = this.props;
         return (
             <div className="commentBox">
-                <h4>Comments</h4>
+                <h3>Comments</h3>
                 <CommentList data={this.props.comments} />
                 <CommentForm onCommentSubmit={this.handleCommentSubmit} />
             </div>

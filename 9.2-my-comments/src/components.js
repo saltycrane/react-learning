@@ -1,4 +1,3 @@
-/* global $ */
 import marked from "marked";
 import React, { Component } from "react";
 
@@ -11,7 +10,7 @@ class Comment extends Component {
 
     render() {
         return (
-            <div className="comment">
+            <div className="comment well">
                 <h5 className="commentAuthor">
                     {this.props.author}
                 </h5>
@@ -58,11 +57,20 @@ export class CommentForm extends Component {
     }
     render() {
         return (
-            <form className="commentForm" onSubmit={this.handleSubmit}>
-                <input type="text" placeholder="Your name" ref="author" />
-                <input type="text" placeholder="Say something..." ref="text" />
-                <input type="submit" value="Post" />
-            </form>
+            <div>
+                <h4>Add a comment</h4>
+                <div className="well">
+                    <form className="commentForm form-inline" onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <input className="form-control" type="text" placeholder="Your name" ref="author" />
+                        </div>
+                        <div className="form-group">
+                            <input className="form-control" type="text" placeholder="Say something..." ref="text" />
+                        </div>
+                        <button className="btn btn-default" type="submit">Post</button>
+                    </form>
+                </div>
+            </div>
         );
     }
 }
