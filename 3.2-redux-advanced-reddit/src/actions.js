@@ -39,7 +39,7 @@ export function receivePosts(reddit, json) {
 // Though its insides are different, you would use it just like any other action creator:
 // store.dispatch(fetchPosts('reactjs'))
 
-export function fetchPosts(reddit) {
+function fetchPosts(reddit) {
 
     // Thunk middleware knows how to handle functions.
     // It passes the dispatch method as an argument to the function,

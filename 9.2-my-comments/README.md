@@ -5,6 +5,7 @@ Overview
  - Integrate with Parse API instead of using local Node API server
  - Add SCSS, dev/prod config, and Redux DevTools from 9.1.
  - Add Bootstrap
+ - Add React Router, detail view, delete functionality
 
 Usage (dev)
 -----------
@@ -31,5 +32,8 @@ Links
 To Do
 -----
  - add filtering, tags
- - comment detail view
  - animation for add and delete
+ - add backend rendering support for each route
+ - handle delete from detail view
+ - set active tab in Bootstrap navbar
+ - edit functionality

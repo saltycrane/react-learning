@@ -5,7 +5,7 @@ import { fetchComments, submitComment, deleteComment } from "../actions";
 import { CommentList, CommentForm } from "../components";
 
 
-class AsyncApp extends Component {
+class CommentsContainer extends Component {
     constructor(props) {
         super(props);
         this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
@@ -48,4 +48,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(AsyncApp);
+export default connect(mapStateToProps)(CommentsContainer);

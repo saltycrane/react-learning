@@ -1,15 +1,27 @@
 import marked from "marked";
 import React, { Component } from "react";
+import { Link } from "react-router";
 
 
-class Comment extends Component {
+export class Comment extends Component {
     rawMarkup() {
         const { commentObj } = this.props;
         var rawMarkup = marked(commentObj.text.toString(), {sanitize: true});
         return { __html: rawMarkup };
     }
     render() {
-        const { commentObj, onDelete } = this.props;
+        const { commentObj, onDelete, isDetailView = false } = this.props;
+        let viewButton = null;
+
+        if (!isDetailView) {
+            viewButton = (
+                <Link
+                    className="btn btn-default"
+                    to={`/comments/${commentObj.objectId}`}
+                >View</Link>
+            );
+        }
+
         return (
             <div className="comment well">
                 <h5 className="commentAuthor">
@@ -18,9 +30,10 @@ class Comment extends Component {
                 </h5>
                 <span dangerouslySetInnerHTML={this.rawMarkup()} />
                 <button
-                    className="btn btn-default delete"
+                    className="btn btn-default"
                     onClick={onDelete.bind(null, commentObj.objectId)}
                 >Delete</button>
+                {viewButton}
             </div>
         );
     }

@@ -27,11 +27,9 @@ export function saveComment(data, callback) {
         });
 }
 
-export function deleteComment(id, callback) {
+export function deleteComment(id) {
     let comment = new Comment();
     comment.id = id;
-    comment.destroy()
-        .done(function(object) {
-            callback(object.toJSON());
-        });
+    comment.destroy();
+    // TODO: error handling. on failure, put the comment back in the state.
 }
