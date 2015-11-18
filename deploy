@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+"""
+Usage:
+
+    $ ./deploy
+    $ git subtree push --prefix dist github gh-pages
+
+"""
+import os
+import os.path
+
+INDEX_TEMPLATE = """\
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>React Learning</title>
+    </head>
+    <body>
+        <p>
+            %s
+        </p>
+    </body>
+</html>
+"""
+
+def main():
+    links = []
+    for path in os.listdir('.'):
+        if os.path.isdir(path) and not path.startswith('.'):
+            if os.path.exists('%s/dist' % path):
+                os.system('mkdir -p dist/%s' % path)
+                os.system('rsync -avz %s/dist/ dist/%s' % (path, path))
+                links.append('<a href="%s">%s</a><br>' % (path, path))
+
+    with open('dist/index.html', 'w') as f:
+        f.write(INDEX_TEMPLATE % '\n'.join(links))
+
+if __name__ == '__main__':
+    main()
