@@ -35,5 +35,4 @@ To Do
  - animation for add and delete
  - add backend rendering support for each route
  - handle delete from detail view
- - set active tab in Bootstrap navbar
  - edit functionality

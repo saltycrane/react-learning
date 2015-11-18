@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { DevTools, DebugPanel, LogMonitor } from "redux-devtools/lib/react";
-import { Router, Route, Link, IndexRoute } from "react-router";
+import { Router, Route, Link, IndexRoute, History } from "react-router";
 
 import configureStore from "../configureStore";
 import CommentsContainer from "./CommentsContainer";
@@ -31,6 +31,21 @@ class About extends Component {
 }
 
 
+// oh no, mixins! See here for alternatives:
+// https://github.com/rackt/react-router/blob/master/docs/API.md#but-im-using-classes
+const Tab = React.createClass({
+    mixins: [ History ],
+    render() {
+        let isActive = this.history.isActive(this.props.to, this.props.query);
+        let className = isActive ? "active" : "";
+
+        return (
+            <li className={className}><Link {...this.props} /></li>
+        );
+    }
+});
+
+
 class Header extends Component {
     render() {
         return (
@@ -40,10 +55,8 @@ class Header extends Component {
                         <Link className="navbar-brand" to="/">Home</Link>
                     </div>
                     <ul className="nav navbar-nav">
-                        <li className="active">
-                            <Link to="/comments">Comments</Link>
-                        </li>
-                        <li><Link to ="/about">About</Link></li>
+                        <Tab to="/comments">Comments</Tab>
+                        <Tab to ="/about">About</Tab>
                     </ul>
                 </div>
             </nav>
