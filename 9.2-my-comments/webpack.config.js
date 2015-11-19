@@ -21,7 +21,6 @@ var common = {
     output: {
         path: BUILD_PATH,
         filename: "bundle.js"
-        // publicPath: "/static/"
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -38,14 +37,15 @@ var common = {
     }
 };
 
-if (TARGET === "startdev" || !TARGET) {
+if (TARGET === "start" || !TARGET) {
     module.exports = merge(common, {
         devtool: "eval-source-map",
         devServer: {
             historyApiFallback: true,
             hot: true,
             inline: true,
-            progress: true
+            progress: true,
+            port: 3000
         },
         plugins: [
             new webpack.DefinePlugin({

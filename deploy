@@ -31,6 +31,8 @@ def main():
             if os.path.exists('%s/dist' % path):
                 os.system('mkdir -p dist/%s' % path)
                 os.system('rsync -avz %s/dist/ dist/%s' % (path, path))
+                if os.path.exists('%s/index.html' % path):
+                    os.system('cp %s/index.html dist/%s' % (path, path))
                 links.append('<a href="%s">%s</a><br>' % (path, path))
 
     with open('dist/index.html', 'w') as f:

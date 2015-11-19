@@ -1,12 +1,11 @@
-Overview
---------
+# Webpack / React Hot Loader setup
 
 Minimal webpack and react hot loader setup copied from https://github.com/gaearon/react-hot-boilerplate
 
- - https://github.com/gaearon/react-hot-loader
+React Hot Loader: https://github.com/gaearon/react-hot-loader
+Webpack: https://webpack.github.io/docs/
 
-Usage
------
+### Usage
 
     $ npm install
     $ npm start

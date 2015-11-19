@@ -1,7 +1,8 @@
+# Redux documentation - Basics - Todo List
+
 https://github.com/rackt/redux/blob/master/docs/basics/README.md
 
-Usage
------
+### Usage
 
     $ npm install
     $ npm start

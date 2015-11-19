@@ -1,10 +1,8 @@
-Overview
---------
+# Facebook documentation - Thinking in React
 
 https://facebook.github.io/react/docs/thinking-in-react.html
 
-Usage
------
+### Usage
 
     $ npm install
     $ npm start

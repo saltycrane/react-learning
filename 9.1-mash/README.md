@@ -1,24 +1,20 @@
-Mash tutorials together and add other stuff. Includes: React, Redux, React
-Router, Webpack, SCSS, React Hot Loader, Redux DevTools.
+# Reddit w/ Router, SCSS, DevTools
 
-Usage (dev)
------------
+Mash tutorials together and add other stuff. Includes: React 0.14, Redux, React
+Router 1.0, Webpack, Babel 6, ES6, SCSS, React Hot Loader, Redux DevTools, separate dev/prod config.
+
+### Usage (dev)
 
     $ npm install
-    $ npm run startdev
-    $ # go to http://localhost:8080/
+    $ npm start
+    $ # go to http://localhost:3000/
 
-Usage (prod)
-------------
+### Usage (prod)
 
     $ npm install
     $ npm run build
     $ # serve the contents of the dist directory
 
-Sources
--------
+### Links
  - Production webpack config: http://survivejs.com/webpack_react/building_kanban/
  - Redux DevTools: https://github.com/gaearon/redux-devtools
-
-To Do
------
