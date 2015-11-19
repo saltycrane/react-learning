@@ -6,6 +6,10 @@
  - Add Bootstrap
  - Add React Router, detail view, delete functionality
 
+### Demo
+
+http://saltycrane.github.io/react-learning/9.2-my-comments
+
 ### Usage (dev)
 
     $ npm install

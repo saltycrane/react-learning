@@ -3,6 +3,10 @@
 Mash tutorials together and add other stuff. Includes: React 0.14, Redux, React
 Router 1.0, Webpack, Babel 6, ES6, SCSS, React Hot Loader, Redux DevTools, separate dev/prod config.
 
+### Demo
+
+http://saltycrane.github.io/react-learning/9.1-mash
+
 ### Usage (dev)
 
     $ npm install

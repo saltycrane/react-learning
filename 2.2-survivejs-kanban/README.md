@@ -2,6 +2,10 @@
 
 http://survivejs.com/webpack_react/introduction/
 
+### Demo
+
+http://saltycrane.github.io/react-learning/2.2-survivejs-kanban/
+
 ### Usage
 
     $ npm install
