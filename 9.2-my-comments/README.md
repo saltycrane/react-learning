@@ -4,7 +4,7 @@
  - Integrate with Parse API instead of using local Node API server
  - Add SCSS, dev/prod config, and Redux DevTools from 9.1.
  - Add Bootstrap
- - Add React Router, detail view, delete functionality
+ - Add React Router, detail view, delete, edit functionality
 
 ### Demo
 
@@ -35,5 +35,4 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
  - add filtering, tags
  - animation for add and delete
  - add backend rendering support for each route
- - handle delete from detail view
- - edit functionality
+ - redirect after deleting from detail view

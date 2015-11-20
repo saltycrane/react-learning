@@ -2,10 +2,9 @@ import * as parse from "./parse-api";
 
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS";
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
-export const POST_COMMENT = "POST_COMMENT";
+export const SAVE_COMMENT = "SAVE_COMMENT";
 export const RECEIVE_COMMENT = "RECEIVE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
-export const SELECT_COMMENT = "SELECT_COMMENT";
 
 // ================
 // private functions
@@ -24,9 +23,9 @@ function _receiveComments(json) {
     };
 }
 
-function _postComment(comment) {
+function _saveComment(comment) {
     return {
-        type: POST_COMMENT,
+        type: SAVE_COMMENT,
         comment: comment
     };
 }
@@ -80,9 +79,9 @@ export function fetchComments() {
     };
 }
 
-export function submitComment(comment) {
+export function saveComment(comment) {
     return dispatch => {
-        dispatch(_postComment(comment));
+        dispatch(_saveComment(comment));
         parse.saveComment(comment, result => dispatch(_receiveComment(result)));
     };
 }
@@ -91,13 +90,5 @@ export function deleteComment(id) {
     return dispatch => {
         dispatch(_deleteComment(id));
         parse.deleteComment(id);
-    };
-}
-
-// not used at the moment
-export function selectComment(id) {
-    return {
-        type: SELECT_COMMENT,
-        id: id
     };
 }

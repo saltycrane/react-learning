@@ -1,35 +1,25 @@
 /* global __DEV__ */
-
 import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { DevTools, DebugPanel, LogMonitor } from "redux-devtools/lib/react";
-import { Router, Route, Link, IndexRoute, History } from "react-router";
+import { Router, Route, Link, History, IndexRedirect } from "react-router";
 
 import configureStore from "../configureStore";
 import CommentsContainer from "./CommentsContainer";
 import CommentDetailContainer from "./CommentDetailContainer";
 
-
 const store = configureStore();
-
-
-class Home extends Component {
-    render() {
-        return (
-            <h3>Home</h3>
-        );
-    }
-}
-
 
 class About extends Component {
     render() {
         return (
-            <h3>About</h3>
+            <div>
+                <h3>About</h3>
+                <p>Github Code: <a href="https://github.com/saltycrane/react-learning/tree/master/9.2-my-comments">https://github.com/saltycrane/react-learning/tree/master/9.2-my-comments</a></p>
+            </div>
         );
     }
 }
-
 
 // oh no, mixins! See here for alternatives:
 // https://github.com/rackt/react-router/blob/master/docs/API.md#but-im-using-classes
@@ -45,14 +35,13 @@ const Tab = React.createClass({
     }
 });
 
-
 class Header extends Component {
     render() {
         return (
             <nav className="navbar navbar-default">
                 <div className="container-fluid">
                     <div className="navbar-header">
-                        <Link className="navbar-brand" to="/">Home</Link>
+                        <div className="navbar-brand">H</div>
                     </div>
                     <ul className="nav navbar-nav">
                         <Tab to="/comments">Comments</Tab>
@@ -63,7 +52,6 @@ class Header extends Component {
         );
     }
 }
-
 
 class App extends Component {
     render() {
@@ -82,7 +70,6 @@ class App extends Component {
     }
 }
 
-
 export default class Root extends Component {
     render() {
         let devTools = null;
@@ -100,10 +87,10 @@ export default class Root extends Component {
                 <Provider store={store}>
                     <Router>
                         <Route path="/" component={App}>
-                            <IndexRoute component={Home} />
                             <Route path="about" component={About} />
                             <Route path="comments/:id" component={CommentDetailContainer} />
                             <Route path="comments" component={CommentsContainer} />
+                            <IndexRedirect to="comments" />
                         </Route>
                     </Router>
                 </Provider>

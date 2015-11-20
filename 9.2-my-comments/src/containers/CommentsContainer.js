@@ -1,26 +1,25 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { fetchComments, submitComment, deleteComment } from "../actions";
-import { CommentList, CommentForm } from "../components";
+import { fetchComments, saveComment, deleteComment } from "../actions";
+import { CommentList, AddCommentBox } from "../components";
 
 
 class CommentsContainer extends Component {
     constructor(props) {
         super(props);
-        this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
+        this._handleSave = this._handleSave.bind(this);
+        this._handleDelete = this._handleDelete.bind(this);
     }
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(fetchComments());
-        // setInterval(this.loadCommentsFromServer, 2000);
     }
-    handleCommentSubmit(comment) {
+    _handleSave(comment) {
         const { dispatch } = this.props;
-        dispatch(submitComment(comment));
+        dispatch(saveComment(comment));
     }
-    handleDelete(commentId) {
+    _handleDelete(commentId) {
         const { dispatch } = this.props;
         dispatch(deleteComment(commentId));
     }
@@ -30,10 +29,12 @@ class CommentsContainer extends Component {
                 <h3>Comments</h3>
                 <CommentList
                     data={this.props.comments}
-                    onDelete={this.handleDelete}
+                    onDelete={this._handleDelete}
+                    onSave={this._handleSave}
                 />
-                <CommentForm
-                    onCommentSubmit={this.handleCommentSubmit}
+                <AddCommentBox
+                    commentObj={{} /* when adding new comments, commentObj is empty */}
+                    onSave={this._handleSave}
                 />
             </div>
         );

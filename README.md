@@ -24,3 +24,11 @@ This is code for tutorials I do as I learn React et al. Uses Webpack, React Hot 
 ### Demo
 
 http://saltycrane.github.io/react-learning/
+
+### Other Resources
+
+ - [You Don't Know JS: ES6 & Beyond](https://github.com/getify/You-Dont-Know-JS/tree/master/es6%20%26%20beyond)
+ - [A cartoon guide to Flux](https://code-cartoons.com/a-cartoon-guide-to-flux-6157355ab207#.1suzo07zg)
+ - [https://github.com/happypoulp/redux-tutorial](https://github.com/happypoulp/redux-tutorial)
+ - [Understanding Redux (or, How I Fell in Love with a JavaScript State Container)](http://www.youhavetolearncomputers.com/blog/2015/9/15/a-conceptual-overview-of-redux-or-how-i-fell-in-love-with-a-javascript-state-container)
+ - [React Conf Europe 2015 videos](https://www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A/playlists)
