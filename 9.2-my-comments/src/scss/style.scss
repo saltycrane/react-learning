@@ -1,7 +1,23 @@
 @import "bootstrap";
 
-$mycolor: #abd;
+.margin-sm-top { margin-top: 5px; }
+.margin-sm-bottom { margin-bottom: 5px; }
+.margin-md-top { margin-top: 10px; }
+.margin-md-bottom { margin-bottom: 10px; }
+.margin-lg-top { margin-top: 20px; }
+.margin-lg-bottom { margin-bottom: 20px; }
+.margin-xl-top { margin-top: 30px; }
+.margin-xl-bottom { margin-bottom: 30px; }
 
-body {
-    // background: $mycolor;
+.margin-sm-left { margin-left: 5px; }
+.margin-sm-right { margin-right: 5px; }
+.margin-md-left { margin-left: 10px; }
+.margin-md-right { margin-right: 10px; }
+.margin-lg-left { margin-left: 20px; }
+.margin-lg-right { margin-right: 20px; }
+
+.comment-metadata {
+    color: #999;
+    font-size: 80%;
+    margin-bottom: 10px;
 }

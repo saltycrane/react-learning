@@ -5,6 +5,7 @@
  - Add SCSS, dev/prod config, and Redux DevTools from 9.1.
  - Add Bootstrap
  - Add React Router, detail view, delete, edit functionality
+ - Add geolocation data and map
 
 ### Demo
 
@@ -36,3 +37,5 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
  - animation for add and delete
  - add backend rendering support for each route
  - redirect after deleting from detail view
+ - upload image
+ - fix warning about setState on CommentForm

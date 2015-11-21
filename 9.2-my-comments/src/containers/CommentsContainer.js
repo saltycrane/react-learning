@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { fetchComments, saveComment, deleteComment } from "../actions";
-import { CommentList, AddCommentBox } from "../components";
+import CommentList from "../components/CommentList";
+import AddCommentBox from "../components/AddCommentBox";
 
 
 class CommentsContainer extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { fetchComments, deleteComment, saveComment } from "../actions";
-import { Comment } from "../components";
+import Comment from "../components/Comment";
 
 
 class CommentDetailContainer extends Component {

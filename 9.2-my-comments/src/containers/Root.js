@@ -60,7 +60,7 @@ class App extends Component {
                 <Header />
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-8">
+                        <div className="col-md-12">
                             {this.props.children}
                         </div>
                     </div>
