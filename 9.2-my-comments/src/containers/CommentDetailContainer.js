@@ -1,32 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { fetchComments, deleteComment, saveComment } from "../actions";
+import {
+    fetchComments,
+    deleteComment,
+    saveComment,
+    editComment,
+    cancelEditComment,
+    saveImage,
+    deleteImage
+} from "../actions";
 import Comment from "../components/Comment";
 
 
 class CommentDetailContainer extends Component {
-    constructor(props) {
-        super(props);
-        this._handleSave = this._handleSave.bind(this);
-        this._handleDelete = this._handleDelete.bind(this);
-    }
     componentDidMount() {
-        const { dispatch } = this.props;
-        dispatch(fetchComments());
-    }
-    _handleSave(comment) {
-        const { dispatch } = this.props;
-        dispatch(saveComment(comment));
-    }
-    _handleDelete(commentId) {
-        const { dispatch } = this.props;
-        dispatch(deleteComment(commentId));
+        const { actions } = this.props;
+        actions.fetchComments();
     }
     render() {
         const {
             params: { id },
-            comments
+            actions,
+            comments,
+            images
         } = this.props;
         const comment = comments.find( item => item.objectId === id );
         let element = null;
@@ -37,8 +35,8 @@ class CommentDetailContainer extends Component {
             element = (
                 <Comment
                     commentObj={comment}
-                    onDelete={this._handleDelete}
-                    onSave={this._handleSave}
+                    images={images}
+                    actions={actions /* Send all the bound action creators to child components. Does this defeat the purpose of smart/dumb components? */}
                     isDetailView={true}
                 />
             );
@@ -57,8 +55,26 @@ function mapStateToProps(state) {
     return {
         isFetching: state.comments.isFetching,
         lastUpdated: state.comments.lastUpdated,
-        comments: state.comments.items
+        comments: state.comments.items,
+        images: state.images.items
     };
 }
 
-export default connect(mapStateToProps)(CommentDetailContainer);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            fetchComments,
+            deleteComment,
+            saveComment,
+            editComment,
+            cancelEditComment,
+            saveImage,
+            deleteImage
+        }, dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CommentDetailContainer);

@@ -1,5 +1,20 @@
 import React, { Component } from "react";
 
+import ImageForm from "./ImageForm";
+
+
+function _union(first, second, key) {
+    // merge the two arrays ensuring each item is unique (based on key)
+    // better way to do this?
+    const merged = [...first, ...second];
+    const vals = merged.map(item => item[key]);
+    const uniqueVals = [...(new Set(vals))];
+
+    return uniqueVals.map(function (val) {
+        return merged.find(item => item[key] === val);
+    });
+}
+
 export default class CommentForm extends Component {
     constructor(props) {
         super(props);
@@ -23,20 +38,31 @@ export default class CommentForm extends Component {
     }
     _handleSave(e) {
         e.preventDefault();
-        const { commentObj, onSave } = this.props;
+        const { commentObj, images, actions } = this.props;
         const author = this._authorInput.value.trim();
         const text = this._textInput.value.trim();
         const location = this._locationInput.value.trim();
+        let allImages;
+
+        // TODO: perform the union in reducers.js
+        // get the union of the existing images and the newly added images
+        if (commentObj.images) {
+            allImages = _union(commentObj.images, images, "objectId");
+        } else {
+            allImages = images;
+        }
+
         const newCommentObj = Object.assign({}, commentObj, {
             author: author,
             text: text,
-            location: location
+            location: location,
+            images: allImages
         });
 
         if (!text || !author) {
             return;
         }
-        onSave(newCommentObj);
+        actions.saveComment(newCommentObj);
         this._authorInput.value = "";
         this._textInput.value = "";
     }
@@ -49,7 +75,7 @@ export default class CommentForm extends Component {
         this.setState({locationText: e.target.value});
     }
     render() {
-        const { commentObj } = this.props;
+        const { commentObj, images, actions } = this.props;
         const { locationText = commentObj.location } = this.state;
 
         return (
@@ -73,19 +99,28 @@ export default class CommentForm extends Component {
                         defaultValue={commentObj.text}
                         ref={(c) => this._textInput = c} />
                 </div>
-                <div className="form-group">
-                    <label>Location</label>
-                    <input
-                        className="form-control"
-                        type="text"
-                        value={locationText}
-                        onChange={this._handleLocationChange}
-                        ref={(c) => this._locationInput = c}
+                <label>Location</label>
+                <div className="margin-md-bottom">
+                    <div className="form-group">
+                        <input
+                            className="form-control margin-sm-bottom"
+                            type="text"
+                            value={locationText}
+                            onChange={this._handleLocationChange}
+                            ref={(c) => this._locationInput = c}
+                        />
+                        <button
+                            className="btn btn-default"
+                            onClick={this._handleGetLocation}
+                        >Get Location</button>
+                    </div>
+                </div>
+                <div className="margin-md-bottom">
+                    <ImageForm
+                        commentObj={commentObj}
+                        images={images}
+                        actions={actions}
                     />
-                    <button
-                        className="btn btn-default"
-                        onClick={this._handleGetLocation}
-                    >Get Location</button>
                 </div>
                 <button className="btn btn-primary" type="submit">Save</button>
             </form>

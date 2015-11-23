@@ -6,6 +6,7 @@
  - Add Bootstrap
  - Add React Router, detail view, delete, edit functionality
  - Add geolocation data and map
+ - Add image upload
 
 ### Demo
 
@@ -37,5 +38,7 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
  - animation for add and delete
  - add backend rendering support for each route
  - redirect after deleting from detail view
- - upload image
  - fix warning about setState on CommentForm
+ - rethink data model
+ - allow adding images from initial "Add a comment" form (currently need to edit existing comment)
+ - edit from list view goes to detail view in edit mode (need combine routing and redux state)

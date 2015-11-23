@@ -4,111 +4,129 @@ import marked from "marked";
 
 import CommentForm from "./CommentForm";
 
+
 export default class Comment extends Component {
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            editing: false
-        };
-        this._handleEdit = this._handleEdit.bind(this);
-        this._handleCancel = this._handleCancel.bind(this);
-        this._handleSave = this._handleSave.bind(this);
-    }
     _rawMarkup() {
         const { commentObj } = this.props;
-        var rawMarkup = marked(commentObj.text.toString(), {sanitize: true});
+        let rawMarkup = null;
+
+        if (commentObj.text) {
+            rawMarkup = marked(commentObj.text.toString(), {sanitize: true});
+        }
         return { __html: rawMarkup };
     }
-    _renderViewButton() {
-        const { commentObj, isDetailView = false } = this.props;
+    _renderMap() {
+        const { commentObj } = this.props;
+        let locationElement = null;
 
-        if (isDetailView) { return null; }
+        if (commentObj.location) {
+            let mapUrl = `http://maps.googleapis.com/maps/api/staticmap?size=275x275&zoom=12&markers=color:red|${commentObj.location}`;
+            locationElement = (
+                <div className="pull-right">
+                    <a href={`https://www.google.com/maps/place/${commentObj.location}`}>
+                        <img src={mapUrl} className="img-responsive" />
+                        <div className="comment-metadata">
+                            Location: {commentObj.location}
+                        </div>
+                    </a>
+                </div>
+            );
+        }
+        return locationElement;
+    }
+    _renderImages() {
+        const { commentObj } = this.props;
+        let element = null;
 
-        // TODO: maybe this should be passed in as a prop
-        return (
-            <Link
-                className="btn btn-default"
-                to={`/comments/${commentObj.objectId}`}
-            >View</Link>
-        );
+        if (commentObj.images) {
+            element = commentObj.images.map(function(image) {
+                return (
+                    <a href={image.file.url} key={image.objectId}>
+                        <img
+                            src={image.file.url}
+                            height="150px"
+                        />
+                    </a>
+                );
+            });
+        }
+        return element;
     }
-    _handleEdit() {
-        this.setState({ editing: true });
-    }
-    _handleCancel() {
-        this.setState({ editing: false });
-    }
-    // wrap the `onSave` callback passed in the props from the parent
-    // so that we can set the state { editing: false }. is there is a better way?
-    _handleSave(newCommentObj) {
-        const { onSave } = this.props;
-        onSave(newCommentObj);
-        this.setState({ editing: false });
+    _renderActionButtons() {
+        const { commentObj, actions, isDetailView = false } = this.props;
+
+        if (isDetailView) {
+            return (
+                <div>
+                    <button
+                        className="btn btn-default margin-md-right"
+                        onClick={() => actions.deleteComment(commentObj.objectId)}
+                    >Delete</button>
+                    <button
+                        className="btn btn-default"
+                        onClick={() => actions.editComment(commentObj.objectId)}
+                    >Edit</button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <button
+                        className="btn btn-default margin-md-right"
+                        onClick={() => actions.deleteComment(commentObj.objectId)}
+                    >Delete</button>
+                    <Link
+                        className="btn btn-default"
+                        to={`/comments/${commentObj.objectId}`}
+                    >View</Link>
+                </div>
+            );
+        }
     }
     render() {
-        const { commentObj, onDelete } = this.props;
+        const { commentObj, images, actions } = this.props;
         let element;
 
-        if (this.state.editing) {
+        if (commentObj.isEditing) {
             // display form for editing
             element = (
                 <div>
-                    <div className="comment-metadata">
+                    <div className="comment-metadata margin-md-bottom">
                         created {commentObj.createdAt}
                         &nbsp;|&nbsp;
                         updated {commentObj.updatedAt}
                     </div>
-                    <CommentForm
-                        commentObj={commentObj}
-                        onSave={this._handleSave} />
+                    <div className="margin-md-bottom">
+                        <CommentForm
+                            commentObj={commentObj}
+                            images={images}
+                            actions={actions}
+                        />
+                    </div>
                     <button
                         className="btn btn-default"
-                        onClick={this._handleCancel}
+                        onClick={() => actions.cancelEditComment(commentObj.objectId)}
                     >Cancel</button>
                 </div>
             );
         } else {
             // display comment
-            let locationElement = null;
-
-            if (commentObj.location) {
-                let mapUrl = `http://maps.googleapis.com/maps/api/staticmap?size=200x200&zoom=12&markers=color:red|${commentObj.location}`;
-                locationElement = (
-                    <div>
-                        <img src={mapUrl} />
-                        <div className="comment-metadata">
-                            Location: {commentObj.location}
-                        </div>
-                    </div>
-                );
-            }
             element = (
-                <div className="row">
-                    <div className="col-sm-8">
-                        <h5>
-                            {commentObj.author}&nbsp;
-                            <small>
-                                created {commentObj.createdAt}
-                                &nbsp;|&nbsp;
-                                updated {commentObj.updatedAt}
-                            </small>
-                        </h5>
-                        <span dangerouslySetInnerHTML={this._rawMarkup()} />
-                        <div className="margin-md-bottom">
-                            <button
-                                className="btn btn-default"
-                                onClick={onDelete.bind(null, commentObj.objectId)}
-                            >Delete</button>
-                            {this._renderViewButton()}
-                            <button
-                                className="btn btn-default"
-                                onClick={this._handleEdit}
-                            >Edit</button>
-                        </div>
+                <div className="clearfix">
+                    <h5>
+                        {commentObj.author}&nbsp;
+                        <small>
+                            created {commentObj.createdAt}
+                            &nbsp;|&nbsp;
+                            updated {commentObj.updatedAt}
+                        </small>
+                    </h5>
+                    {this._renderMap()}
+                    <span dangerouslySetInnerHTML={this._rawMarkup()} />
+                    <div className="margin-md-bottom">
+                        {this._renderImages()}
                     </div>
-                    <div className="col-sm-4">
-                        {locationElement}
-                    </div>
+                    {this._renderActionButtons()}
                 </div>
             );
         }

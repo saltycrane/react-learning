@@ -5,6 +5,11 @@ export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
 export const SAVE_COMMENT = "SAVE_COMMENT";
 export const RECEIVE_COMMENT = "RECEIVE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
+export const EDIT_COMMENT = "EDIT_COMMENT";
+export const CANCEL_EDIT_COMMENT = "CANCEL_EDIT_COMMENT";
+export const SAVE_IMAGE = "SAVE_IMAGE";
+export const RECEIVE_IMAGE = "RECEIVE_IMAGE";
+export const DELETE_IMAGE = "DELETE_IMAGE";
 
 // ================
 // private functions
@@ -44,6 +49,21 @@ function _deleteComment(id) {
     };
 }
 
+function _receiveImage(image) {
+    return {
+        type: RECEIVE_IMAGE,
+        image: image
+    };
+}
+
+function _deleteImage(id, comment) {
+    return {
+        type: DELETE_IMAGE,
+        id: id,
+        comment: comment
+    };
+}
+
 function _actuallyFetchComments() {
     return dispatch => {
         dispatch(_requestComments());
@@ -68,8 +88,22 @@ function _shouldFetch(state) {
 // ================
 // public functions
 // ================
+export function editComment(id) {
+    return {
+        type: EDIT_COMMENT,
+        id: id
+    };
+}
+
+export function cancelEditComment(id) {
+    return {
+        type: CANCEL_EDIT_COMMENT,
+        id: id
+    };
+}
+
+// fetch comments if not already cached
 export function fetchComments() {
-    // fetch comments if not already cached
     return (dispatch, getState) => {
         if (_shouldFetch(getState())) {
             return dispatch(_actuallyFetchComments());
@@ -82,6 +116,11 @@ export function fetchComments() {
 export function saveComment(comment) {
     return dispatch => {
         dispatch(_saveComment(comment));
+
+        // remove properties from the redux state that I don't want to save to Parse.
+        // TODO: how to handle this better?
+        delete comment.isEditing;
+
         parse.saveComment(comment, result => dispatch(_receiveComment(result)));
     };
 }
@@ -90,5 +129,29 @@ export function deleteComment(id) {
     return dispatch => {
         dispatch(_deleteComment(id));
         parse.deleteComment(id);
+    };
+}
+
+export function saveImage(file, commentId) {
+    return dispatch => {
+        // dispatch(_saveImage(file, commentId));
+        parse.saveImage(file, commentId, image => dispatch(_receiveImage(image)));
+    };
+}
+
+// delete the Image row and update the Comment images list
+export function deleteImage(id, comment) {
+    const images = comment.images.filter(item => item.objectId !== id);
+    let newComment = Object.assign({}, comment, {
+        images: images
+    });
+
+    return dispatch => {
+        dispatch(_deleteImage(id, newComment));
+        parse.deleteImage(id);
+
+        delete newComment.isEditing;
+
+        parse.saveComment(newComment);
     };
 }

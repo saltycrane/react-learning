@@ -2,16 +2,17 @@ import React, { Component } from "react";
 
 import Comment from "./Comment";
 
+
 export default class CommentList extends Component {
     render() {
-        const { data, onDelete, onSave } = this.props;
+        const { data, actions } = this.props;
         const commentNodes = data.map(function(comment) {
             return (
                 <Comment
                     key={comment.objectId}
                     commentObj={comment}
-                    onDelete={onDelete}
-                    onSave={onSave} />
+                    actions={actions}
+                />
             );
         });
         return (
