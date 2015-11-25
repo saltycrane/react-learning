@@ -28,13 +28,7 @@ export default class CommentForm extends Component {
         this._handleLocationChange = this._handleLocationChange.bind(this);
     }
     componentDidMount() {
-        // get user's location
-        navigator.geolocation.getCurrentPosition(position => {
-            this.setState({
-                lat: position.coords.latitude,
-                lon: position.coords.longitude
-            });
-        });
+        this._getLocation();
     }
     _handleSave(e) {
         e.preventDefault();
@@ -66,8 +60,17 @@ export default class CommentForm extends Component {
         this._authorInput.value = "";
         this._textInput.value = "";
     }
+    _getLocation() {
+        navigator.geolocation.getCurrentPosition(position => {
+            this.setState({
+                lat: position.coords.latitude,
+                lon: position.coords.longitude
+            });
+        });
+    }
     _handleGetLocation(e) {
         e.preventDefault();
+        this._getLocation();
         const locationText = this.state.lat + "," + this.state.lon;
         this.setState({locationText: locationText});
     }

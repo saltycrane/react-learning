@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 import marked from "marked";
+import moment from "moment";
 
 import CommentForm from "./CommentForm";
 
+
+function formatDate(isodate) {
+    return moment(isodate).format("YYYY-MM-DD h:mm a");
+}
 
 export default class Comment extends Component {
     _rawMarkup() {
@@ -92,9 +97,9 @@ export default class Comment extends Component {
             element = (
                 <div>
                     <div className="comment-metadata margin-md-bottom">
-                        created {commentObj.createdAt}
+                        created {formatDate(commentObj.createdAt)}
                         &nbsp;|&nbsp;
-                        updated {commentObj.updatedAt}
+                        updated {formatDate(commentObj.updatedAt)}
                     </div>
                     <div className="margin-md-bottom">
                         <CommentForm
@@ -116,9 +121,9 @@ export default class Comment extends Component {
                     <h5>
                         {commentObj.author}&nbsp;
                         <small>
-                            created {commentObj.createdAt}
+                            created {formatDate(commentObj.createdAt)}
                             &nbsp;|&nbsp;
-                            updated {commentObj.updatedAt}
+                            updated {formatDate(commentObj.updatedAt)}
                         </small>
                     </h5>
                     {this._renderMap()}
