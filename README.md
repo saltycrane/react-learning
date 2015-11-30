@@ -32,3 +32,4 @@ http://saltycrane.github.io/react-learning/
  - [https://github.com/happypoulp/redux-tutorial](https://github.com/happypoulp/redux-tutorial)
  - [Understanding Redux (or, How I Fell in Love with a JavaScript State Container)](http://www.youhavetolearncomputers.com/blog/2015/9/15/a-conceptual-overview-of-redux-or-how-i-fell-in-love-with-a-javascript-state-container)
  - [React Conf Europe 2015 videos](https://www.youtube.com/channel/UCorlLn2oZfgOJ-FUcF2eZ1A/playlists)
+ - [Dan Abramov's Getting Started with Redux course](https://egghead.io/series/getting-started-with-redux)

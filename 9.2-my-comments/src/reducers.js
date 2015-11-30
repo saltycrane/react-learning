@@ -81,7 +81,6 @@ function comments(state = {
     let isNewComment;
     let comments;
     let comment;
-    let images;
 
     switch (action.type) {
         case REQUEST_COMMENTS:

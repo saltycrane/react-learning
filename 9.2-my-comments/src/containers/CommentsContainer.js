@@ -1,18 +1,8 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 
-import {
-    fetchComments,
-    deleteComment,
-    saveComment,
-    editComment,
-    cancelEditComment,
-    saveImage,
-    deleteImage
-} from "../actions";
+import connectToRedux from "./connectToRedux";
+import CommentForm from "../components/CommentForm";
 import CommentList from "../components/CommentList";
-import AddCommentBox from "../components/AddCommentBox";
 
 
 class CommentsContainer extends Component {
@@ -30,39 +20,18 @@ class CommentsContainer extends Component {
                     data={comments}
                     actions={actions}
                 />
-                <AddCommentBox
-                    commentObj={{} /* when adding new comments, commentObj is empty */}
-                    actions={actions}
-                />
+                <div>
+                    <h4>Add a comment</h4>
+                    <div className="well">
+                        <CommentForm
+                            commentObj={{} /* when adding new comments, commentObj is empty */}
+                            actions={actions}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        isFetching: state.comments.isFetching,
-        lastUpdated: state.comments.lastUpdated,
-        comments: state.comments.items
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        dispatch: dispatch,
-        actions: bindActionCreators({
-            fetchComments,
-            deleteComment,
-            saveComment,
-            editComment,
-            cancelEditComment,
-            saveImage,
-            deleteImage
-        }, dispatch)
-    };
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CommentsContainer);
+export default connectToRedux(CommentsContainer);

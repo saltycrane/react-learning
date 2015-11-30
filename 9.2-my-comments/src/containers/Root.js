@@ -7,6 +7,8 @@ import { Router, Route, Link, History, IndexRedirect } from "react-router";
 import configureStore from "../configureStore";
 import CommentsContainer from "./CommentsContainer";
 import CommentDetailContainer from "./CommentDetailContainer";
+import LastCommentContainer from "./LastCommentContainer";
+
 
 const store = configureStore();
 
@@ -45,6 +47,7 @@ class Header extends Component {
                     </div>
                     <ul className="nav navbar-nav">
                         <Tab to="/comments">Comments</Tab>
+                        <Tab to="/last">Last Comment</Tab>
                         <Tab to ="/about">About</Tab>
                     </ul>
                 </div>
@@ -90,6 +93,7 @@ export default class Root extends Component {
                             <Route path="about" component={About} />
                             <Route path="comments/:id" component={CommentDetailContainer} />
                             <Route path="comments" component={CommentsContainer} />
+                            <Route path="last" component={LastCommentContainer} />
                             <IndexRedirect to="comments" />
                         </Route>
                     </Router>
