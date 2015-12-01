@@ -1,13 +1,8 @@
-import { routeReducer } from "redux-simple-router";
-
 import {
     REQUEST_COMMENTS,
     RECEIVE_COMMENTS,
-    SAVE_COMMENT,
     RECEIVE_COMMENT,
     DELETE_COMMENT,
-    EDIT_COMMENT,
-    CANCEL_EDIT_COMMENT,
     RECEIVE_IMAGE,
     DELETE_IMAGE
 } from "./actions";
@@ -38,9 +33,6 @@ const EXAMPLE_STATE = {
                 ],
                 createdAt: "2015-11-23T21:23:41.838Z",
                 updatedAt: "2015-11-23T21:23:41.838Z",
-
-                // local only (maybe move this up next to isFetching)
-                isEditing: false
             }
         ]
     },
@@ -91,24 +83,11 @@ function comments(state = {
                 didInvalidate: false
             });
         case RECEIVE_COMMENTS:
-            comments = action.comments.map(function (item) {
-                return Object.assign({}, item, {
-                    isEditing: false
-                });
-            });
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
-                items: comments,
+                items: action.comments,
                 lastUpdated: action.receivedAt
-            });
-        case SAVE_COMMENT:
-            // for an existing comment, set the `isEditing` flag for the selected comment.
-            // for new comments, do nothing.
-            return Object.assign({}, state, {
-                items: _updateItem(state.items, action.comment.objectId, {
-                    isEditing: false
-                })
             });
         case RECEIVE_COMMENT:
             // this action occurs after receiving the response from the API after saving a comment
@@ -130,24 +109,6 @@ function comments(state = {
             // NOTE: this does not wait for confirmation from the API
             return Object.assign({}, state, {
                 items: state.items.filter(item => item.objectId !== action.id)
-            });
-        case EDIT_COMMENT:
-            // set the `isEditing` flag for the selected comment.
-            // this state is managed in Redux instead of the component state because
-            // I want to display an image asynchronously after saving it to Parse
-            // (but before saving the image with the comment).
-            // need to know which comment to show the image. maybe there is a better way.
-            return Object.assign({}, state, {
-                items: _updateItem(state.items, action.id, {
-                    isEditing: true
-                })
-            });
-        case CANCEL_EDIT_COMMENT:
-            // clear the `isEditing` flag for the selected comment
-            return Object.assign({}, state, {
-                items: _updateItem(state.items, action.id, {
-                    isEditing: false
-                })
             });
         case DELETE_IMAGE:
             // remove image from the comment's images list.
@@ -191,7 +152,6 @@ function images(state = {
 export default function rootReducer(state = {}, action) {
     return {
         comments: comments(state.comments, action),
-        images: images(state.images, action),
-        routing: routeReducer(state.routing, action)
+        images: images(state.images, action)
     };
 }

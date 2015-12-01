@@ -35,6 +35,7 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
 ### To Do
 
  - add filtering, tags
+ - sorting
  - animation for add and delete
  - add backend rendering support for each route
  - fix warning about setState on CommentForm
@@ -42,6 +43,5 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
    put the geolocation in Redux instead of the component state
  - rethink data model
  - allow adding images from initial "Add a comment" form (currently need to edit existing comment)
- - edit from list view goes to detail view in edit mode (need combine routing and redux state)
-   (redux-simple-router)
  - authentication (https)
+ - display (interactive) map in edit mode

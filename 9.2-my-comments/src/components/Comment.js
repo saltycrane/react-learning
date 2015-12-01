@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router";
 import marked from "marked";
-import moment from "moment";
 
-import CommentForm from "./CommentForm";
+import * as util from "../util";
 
-
-function formatDate(isodate) {
-    return moment(isodate).format("YYYY-MM-DD h:mm a");
-}
 
 export default class Comment extends Component {
     _rawMarkup() {
@@ -57,73 +52,28 @@ export default class Comment extends Component {
         }
         return element;
     }
-    _renderActionButtons() {
+    render() {
         const { commentObj, actions, isDetailView = false } = this.props;
+        let viewButton = null;
 
-        if (isDetailView) {
-            return (
-                <div>
-                    <button
-                        className="btn btn-default margin-md-right"
-                        onClick={() => actions.deleteComment(commentObj.objectId, isDetailView)}
-                    >Delete</button>
-                    <button
-                        className="btn btn-default"
-                        onClick={() => actions.editComment(commentObj.objectId)}
-                    >Edit</button>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <button
-                        className="btn btn-default margin-md-right"
-                        onClick={() => actions.deleteComment(commentObj.objectId)}
-                    >Delete</button>
-                    <Link
-                        className="btn btn-default"
-                        to={`/comments/${commentObj.objectId}`}
-                    >View</Link>
-                </div>
+        if (!isDetailView) {
+            viewButton = (
+                <Link
+                    className="btn btn-default"
+                    to={`/comments/${commentObj.objectId}`}
+                >View</Link>
             );
         }
-    }
-    render() {
-        const { commentObj, images, actions } = this.props;
-        let element;
 
-        if (commentObj.isEditing) {
-            // display form for editing
-            element = (
-                <div>
-                    <div className="comment-metadata margin-md-bottom">
-                        created {formatDate(commentObj.createdAt)}
-                        &nbsp;|&nbsp;
-                        updated {formatDate(commentObj.updatedAt)}
-                    </div>
-                    <div className="margin-md-bottom">
-                        <CommentForm
-                            commentObj={commentObj}
-                            images={images}
-                            actions={actions}
-                        />
-                    </div>
-                    <button
-                        className="btn btn-default"
-                        onClick={() => actions.cancelEditComment(commentObj.objectId)}
-                    >Cancel</button>
-                </div>
-            );
-        } else {
-            // display comment
-            element = (
+        return (
+            <div className="comment well">
                 <div className="clearfix">
                     <h5>
                         {commentObj.author}&nbsp;
                         <small>
-                            created {formatDate(commentObj.createdAt)}
+                            created {util.formatDate(commentObj.createdAt)}
                             &nbsp;|&nbsp;
-                            updated {formatDate(commentObj.updatedAt)}
+                            updated {util.formatDate(commentObj.updatedAt)}
                         </small>
                     </h5>
                     {this._renderMap()}
@@ -131,14 +81,18 @@ export default class Comment extends Component {
                     <div className="margin-md-bottom">
                         {this._renderImages()}
                     </div>
-                    {this._renderActionButtons()}
+                    <div>
+                        <button
+                            className="btn btn-default margin-md-right"
+                            onClick={() => actions.deleteComment(commentObj.objectId, isDetailView)}
+                        >Delete</button>
+                        <Link
+                            className="btn btn-default margin-md-right"
+                            to={`/comments/${commentObj.objectId}/edit`}
+                        >Edit</Link>
+                        {viewButton}
+                    </div>
                 </div>
-            );
-        }
-
-        return (
-            <div className="comment well">
-                {element}
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import ImageForm from "./ImageForm";
 import LocationForm from "./LocationForm";
+import history from "../history";
 
 
 function _union(first, second, key) {
@@ -23,7 +24,7 @@ export default class CommentForm extends Component {
     }
     _handleSave(e) {
         e.preventDefault();
-        const { commentObj, images, actions } = this.props;
+        const { commentObj, images, actions, isEditView = false } = this.props;
         const author = this._authorInput.value.trim();
         const text = this._textInput.value.trim();
         const location = this._locationForm.getValue();
@@ -50,9 +51,22 @@ export default class CommentForm extends Component {
         actions.saveComment(newCommentObj);
         this._authorInput.value = "";
         this._textInput.value = "";
+        if (isEditView) {
+            history.goBack();
+        }
     }
     render() {
-        const { commentObj, images, actions } = this.props;
+        const { commentObj, images, actions, isEditView = false } = this.props;
+        let cancelButton = null;
+
+        if (isEditView) {
+            cancelButton = (
+                <span
+                    className="btn btn-default margin-md-right"
+                    onClick={history.goBack}
+                >Cancel</span>
+            );
+        }
 
         return (
             <form onSubmit={this._handleSave}>
@@ -86,6 +100,7 @@ export default class CommentForm extends Component {
                         actions={actions}
                     />
                 </div>
+                {cancelButton}
                 <button className="btn btn-primary" type="submit">Save</button>
             </form>
         );
