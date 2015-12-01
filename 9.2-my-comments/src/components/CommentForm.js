@@ -61,12 +61,20 @@ export default class CommentForm extends Component {
         this._textInput.value = "";
     }
     _getLocation() {
-        navigator.geolocation.getCurrentPosition(position => {
-            this.setState({
-                lat: position.coords.latitude,
-                lon: position.coords.longitude
-            });
-        });
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                this.setState({
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude
+                });
+            },
+            err => {
+                console.error(`ERROR(${err.code}): ${err.message}`);
+            },
+            {
+                enableHighAccuracy: true
+            }
+        );
     }
     _handleGetLocation(e) {
         e.preventDefault();
