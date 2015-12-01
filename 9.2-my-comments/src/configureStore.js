@@ -1,22 +1,13 @@
 /* global __DEV__ */
-
 import { createStore, applyMiddleware, compose } from "redux";
 import { devTools, persistState } from "redux-devtools";
 import thunkMiddleware from "redux-thunk";
 import createLogger from "redux-logger";
+
 import rootReducer from "./reducers";
 
 let finalCreateStore;
 const loggerMiddleware = createLogger();
-
-// const createStoreWithMiddleware = applyMiddleware(
-//     thunkMiddleware,
-//     loggerMiddleware
-// )(createStore);
-
-// export default function configureStore(initialState) {
-//     return createStoreWithMiddleware(rootReducer, initialState);
-// }
 
 if (__DEV__) {
     finalCreateStore = compose(

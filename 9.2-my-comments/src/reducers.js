@@ -1,3 +1,5 @@
+import { routeReducer } from "redux-simple-router";
+
 import {
     REQUEST_COMMENTS,
     RECEIVE_COMMENTS,
@@ -189,6 +191,7 @@ function images(state = {
 export default function rootReducer(state = {}, action) {
     return {
         comments: comments(state.comments, action),
-        images: images(state.images, action)
+        images: images(state.images, action),
+        routing: routeReducer(state.routing, action)
     };
 }

@@ -1,27 +1,22 @@
 /* global __DEV__ */
+import createHashHistory from "history/lib/createHashHistory";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { DevTools, DebugPanel, LogMonitor } from "redux-devtools/lib/react";
 import { Router, Route, Link, History, IndexRedirect } from "react-router";
+import { DevTools, DebugPanel, LogMonitor } from "redux-devtools/lib/react";
+import { syncReduxAndRouter } from "redux-simple-router";
 
 import configureStore from "../configureStore";
 import CommentsContainer from "./CommentsContainer";
 import CommentDetailContainer from "./CommentDetailContainer";
 import LastCommentContainer from "./LastCommentContainer";
+import About from "../components/About";
 
 
 const store = configureStore();
+const history = createHashHistory();
 
-class About extends Component {
-    render() {
-        return (
-            <div>
-                <h3>About</h3>
-                <p>Github Code: <a href="https://github.com/saltycrane/react-learning/tree/master/9.2-my-comments">https://github.com/saltycrane/react-learning/tree/master/9.2-my-comments</a></p>
-            </div>
-        );
-    }
-}
+syncReduxAndRouter(history, store);
 
 // oh no, mixins! See here for alternatives:
 // https://github.com/rackt/react-router/blob/master/docs/API.md#but-im-using-classes
@@ -88,7 +83,7 @@ export default class Root extends Component {
         return (
             <div>
                 <Provider store={store}>
-                    <Router>
+                    <Router history={history}>
                         <Route path="/" component={App}>
                             <Route path="about" component={About} />
                             <Route path="comments/:id" component={CommentDetailContainer} />

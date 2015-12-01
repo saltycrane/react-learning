@@ -65,7 +65,7 @@ export default class Comment extends Component {
                 <div>
                     <button
                         className="btn btn-default margin-md-right"
-                        onClick={() => actions.deleteComment(commentObj.objectId)}
+                        onClick={() => actions.deleteComment(commentObj.objectId, isDetailView)}
                     >Delete</button>
                     <button
                         className="btn btn-default"

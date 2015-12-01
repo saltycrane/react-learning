@@ -1,4 +1,7 @@
+import { updatePath } from "redux-simple-router";
+
 import * as parse from "./parse-api";
+
 
 export const REQUEST_COMMENTS = "REQUEST_COMMENTS";
 export const RECEIVE_COMMENTS = "RECEIVE_COMMENTS";
@@ -125,9 +128,12 @@ export function saveComment(comment) {
     };
 }
 
-export function deleteComment(id) {
+export function deleteComment(id, isDetailView = false) {
     return dispatch => {
         dispatch(_deleteComment(id));
+        if (isDetailView) {
+            dispatch(updatePath("/comments"));
+        }
         parse.deleteComment(id);
     };
 }
