@@ -29,7 +29,7 @@ class LastCommentContainer extends Component {
                         commentObj={comment}
                         images={images}
                         actions={actions /* Send all the bound action creators to child components. Does this defeat the purpose of smart/dumb components? */}
-                        isDetailView={true}
+                        isDetailView={false}
                     />
                     <h4>Add a comment</h4>
                     <div className="well">

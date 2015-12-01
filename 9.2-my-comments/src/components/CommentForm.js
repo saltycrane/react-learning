@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import ImageForm from "./ImageForm";
+import LocationForm from "./LocationForm";
 
 
 function _union(first, second, key) {
@@ -18,24 +19,14 @@ function _union(first, second, key) {
 export default class CommentForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            lat: null,
-            lon: null,
-            locationText: undefined
-        };
         this._handleSave = this._handleSave.bind(this);
-        this._handleGetLocation = this._handleGetLocation.bind(this);
-        this._handleLocationChange = this._handleLocationChange.bind(this);
-    }
-    componentDidMount() {
-        this._getLocation();
     }
     _handleSave(e) {
         e.preventDefault();
         const { commentObj, images, actions } = this.props;
         const author = this._authorInput.value.trim();
         const text = this._textInput.value.trim();
-        const location = this._locationInput.value.trim();
+        const location = this._locationForm.getValue();
         let allImages;
 
         // TODO: perform the union in reducers.js
@@ -60,34 +51,8 @@ export default class CommentForm extends Component {
         this._authorInput.value = "";
         this._textInput.value = "";
     }
-    _getLocation() {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                this.setState({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude
-                });
-            },
-            err => {
-                console.error(`ERROR(${err.code}): ${err.message}`);
-            },
-            {
-                enableHighAccuracy: true
-            }
-        );
-    }
-    _handleGetLocation(e) {
-        e.preventDefault();
-        this._getLocation();
-        const locationText = this.state.lat + "," + this.state.lon;
-        this.setState({locationText: locationText});
-    }
-    _handleLocationChange(e) {
-        this.setState({locationText: e.target.value});
-    }
     render() {
         const { commentObj, images, actions } = this.props;
-        const { locationText = commentObj.location } = this.state;
 
         return (
             <form onSubmit={this._handleSave}>
@@ -110,22 +75,10 @@ export default class CommentForm extends Component {
                         defaultValue={commentObj.text}
                         ref={(c) => this._textInput = c} />
                 </div>
-                <label>Location</label>
-                <div className="margin-md-bottom">
-                    <div className="form-group">
-                        <input
-                            className="form-control margin-sm-bottom"
-                            type="text"
-                            value={locationText}
-                            onChange={this._handleLocationChange}
-                            ref={(c) => this._locationInput = c}
-                        />
-                        <button
-                            className="btn btn-default"
-                            onClick={this._handleGetLocation}
-                        >Get Location</button>
-                    </div>
-                </div>
+                <LocationForm
+                    initialLocationText={commentObj.location}
+                    ref={(c) => this._locationForm = c}
+                />
                 <div className="margin-md-bottom">
                     <ImageForm
                         commentObj={commentObj}
