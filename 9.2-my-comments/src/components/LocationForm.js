@@ -10,10 +10,12 @@ export default class LocationForm extends Component {
         this.state = {
             lat: null,
             lon: null,
-            locationText: initialLocationText
+            locationText: initialLocationText,
+            prevLocationText: initialLocationText
         };
-        this._handleGetLocation = this._handleGetLocation.bind(this);
         this._handleLocationChange = this._handleLocationChange.bind(this);
+        this._handleGetLocation = this._handleGetLocation.bind(this);
+        this._handleUndo = this._handleUndo.bind(this);
     }
     componentDidMount() {
         this._getLocation();
@@ -34,14 +36,21 @@ export default class LocationForm extends Component {
             }
         );
     }
+    _handleLocationChange(e) {
+        this.setState({locationText: e.target.value});
+    }
     _handleGetLocation(e) {
         e.preventDefault();
         this._getLocation();
         const locationText = this.state.lat + "," + this.state.lon;
-        this.setState({locationText: locationText});
+        this.setState({
+            prevLocationText: this.state.locationText,
+            locationText: locationText
+        });
     }
-    _handleLocationChange(e) {
-        this.setState({locationText: e.target.value});
+    _handleUndo(e) {
+        e.preventDefault();
+        this.setState({locationText: this.state.prevLocationText});
     }
     render() {
         const { locationText } = this.state;
@@ -59,9 +68,13 @@ export default class LocationForm extends Component {
                                 ref={(c) => this._locationInput = c}
                             />
                             <button
-                                className="btn btn-default"
+                                className="btn btn-default margin-sm-right"
                                 onClick={this._handleGetLocation}
                             >Get Location</button>
+                            <button
+                                className="btn btn-default"
+                                onClick={this._handleUndo}
+                            >Undo</button>
                         </div>
                     </div>
                 </div>
