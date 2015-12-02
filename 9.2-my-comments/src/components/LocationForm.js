@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import StaticMap from "./StaticMap";
+
 
 export default class LocationForm extends Component {
     constructor(props) {
@@ -44,22 +46,27 @@ export default class LocationForm extends Component {
     render() {
         const { locationText } = this.state;
         return (
-            <div>
-                <label>Location</label>
-                <div className="margin-md-bottom">
-                    <div className="form-group">
-                        <input
-                            className="form-control margin-sm-bottom"
-                            type="text"
-                            value={locationText}
-                            onChange={this._handleLocationChange}
-                            ref={(c) => this._locationInput = c}
-                        />
-                        <button
-                            className="btn btn-default"
-                            onClick={this._handleGetLocation}
-                        >Get Location</button>
+            <div className="row">
+                <div className="col-md-6">
+                    <label>Location</label>
+                    <div className="margin-md-bottom">
+                        <div className="form-group">
+                            <input
+                                className="form-control margin-sm-bottom"
+                                type="text"
+                                value={locationText}
+                                onChange={this._handleLocationChange}
+                                ref={(c) => this._locationInput = c}
+                            />
+                            <button
+                                className="btn btn-default"
+                                onClick={this._handleGetLocation}
+                            >Get Location</button>
+                        </div>
                     </div>
+                </div>
+                <div className="col-md-6">
+                    <StaticMap location={locationText} />
                 </div>
             </div>
         );

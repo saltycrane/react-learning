@@ -44,4 +44,3 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
  - rethink data model
  - allow adding images from initial "Add a comment" form (currently need to edit existing comment)
  - authentication (https)
- - display (interactive) map in edit mode

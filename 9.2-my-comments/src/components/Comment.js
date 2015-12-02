@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router";
 import marked from "marked";
 
+import StaticMap from "./StaticMap";
 import * as util from "../util";
 
 
@@ -14,25 +15,6 @@ export default class Comment extends Component {
             rawMarkup = marked(commentObj.text.toString(), {sanitize: true});
         }
         return { __html: rawMarkup };
-    }
-    _renderMap() {
-        const { commentObj } = this.props;
-        let locationElement = null;
-
-        if (commentObj.location) {
-            let mapUrl = `http://maps.googleapis.com/maps/api/staticmap?size=275x275&zoom=12&markers=color:red|${commentObj.location}`;
-            locationElement = (
-                <div className="pull-right">
-                    <a href={`https://www.google.com/maps/place/${commentObj.location}`}>
-                        <img src={mapUrl} className="img-responsive" />
-                        <div className="comment-metadata">
-                            Location: {commentObj.location}
-                        </div>
-                    </a>
-                </div>
-            );
-        }
-        return locationElement;
     }
     _renderImages() {
         const { commentObj } = this.props;
@@ -76,7 +58,9 @@ export default class Comment extends Component {
                             updated {util.formatDate(commentObj.updatedAt)}
                         </small>
                     </h5>
-                    {this._renderMap()}
+                    <div className="pull-right">
+                        <StaticMap location={commentObj.location} />
+                    </div>
                     <span dangerouslySetInnerHTML={this._rawMarkup()} />
                     <div className="margin-md-bottom">
                         {this._renderImages()}
