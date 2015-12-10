@@ -1,0 +1,78 @@
+@import "common";
+
+.box {
+    margin-bottom: 20px;
+    border: 1px solid $gray-4;
+}
+
+.contact-list {
+    > li:not(:last-child) {
+        border-bottom: 1px solid $gray-4;
+    }
+}
+
+.contact {
+    min-height: $list-panel-height;
+    position: relative;
+    &:hover {
+        box-shadow: inset 0 0 0 1px $blue, 0 0 0 1px $blue;
+    }
+}
+
+.contact-top {
+    display: table;
+}
+
+.contact-left {
+    display: table-cell;
+    padding: 20px 0;
+    vertical-align: top;
+}
+
+.contact-image {
+    @extend %contact-image;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.contact-ul {
+    display: table-cell;
+    height: $list-panel-height;
+    padding: 20px 10px;
+    vertical-align: middle;
+    width: 1000px;
+}
+
+.contact-item {
+    font-size: $font-size-small;
+    line-height: 1.2;
+    &.phone {
+        padding: 10px 0;
+        > .fa-phone {
+            color: $gray-5;
+            display: inline-block;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        > span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+
+.contact-name {
+    @extend .contact-item;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+}
+
+.contact-right {
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.contact-bottom {
+    display: block;
+}

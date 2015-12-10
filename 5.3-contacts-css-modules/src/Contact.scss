@@ -1,0 +1,70 @@
+// Punt: Sass import for variables
+@import "common";
+
+.root {
+    min-height: $list-panel-height;
+    position: relative;
+    &:hover {
+        box-shadow: inset 0 0 0 1px $blue, 0 0 0 1px $blue;
+        z-index: 2;
+    }
+}
+
+.top {
+    display: table;
+}
+
+.left {
+    display: table-cell;
+    padding: 20px 0;
+    vertical-align: top;
+}
+
+.image {
+    composes: contactImage from "./common.scss";
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.list {
+    composes: listReset from "./common.scss";
+    display: table-cell;
+    height: $list-panel-height;
+    padding: 20px 10px;
+    vertical-align: middle;
+    width: 1000px;
+}
+
+.item {
+    font-size: $font-size-small;
+    line-height: 1.2;
+}
+
+.phoneItem {
+    composes: item;
+    padding: 10px 0;
+    > span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+// ok to not use a child selector because class is scoped to this module only
+.phoneIcon {
+    color: $gray-5;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.nameItem {
+    composes: item;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+}
+
+.right {
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+}

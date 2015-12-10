@@ -1,0 +1,15 @@
+// punt on variables in CSS modules and just use SASS
+@import "common";
+
+
+.box {
+    margin-bottom: 20px;
+    border: 1px solid $gray-4;
+}
+
+.list {
+    composes: listReset from "./common.scss";
+    > li:not(:last-child) {
+        border-bottom: 1px solid $gray-4;
+    }
+}

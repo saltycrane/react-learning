@@ -16,6 +16,43 @@ This is code for tutorials I do as I learn React et al. Uses Webpack, React Hot 
 4. React Router
   1. [React Router documentation - Basics](/4.1-react-router-basics)
 
+### Styling Comparison
+
+1. [CSS Stylesheet](/5.1-contacts-css)
+   - Uses normal CSS (Sass) stylesheets
+   - CSS classes are set using the `className` attribute of React elements
+2. [Inline Style in JS](/5.2-contacts-inline-style)
+   - Style information is put inside a Javascript object instead of CSS
+   - Doesn't support `:hover` or other pseudo selectors
+   - Doesn't support media queries
+   - https://facebook.github.io/react/tips/inline-styles.html
+   - https://www.youtube.com/watch?v=ERB1TJBn32c
+3. [CSS Modules](/5.3-contacts-css-modules)
+   - CSS is used but definitions are local to a module
+   - A CSS module is created for each Javascript module
+   - The Webpack CSS loader transforms the local CSS modules into global BEM-like CSS definitions
+   - http://glenmaddern.com/articles/css-modules
+   - https://www.youtube.com/watch?v=zR1lOuyQEt8
+   - https://github.com/css-modules/webpack-demo
+   - Doesn't have individual variables
+     (use specific classes with composition or global Sass variables instead)
+     https://github.com/css-modules/css-modules/issues/22 
+   - Use of child selectors goes against the encapsulation philosophy of CSS modules
+     https://github.com/css-modules/css-modules/issues/21
+   - It's possible to compose with external libraries like font awesome
+     https://github.com/css-modules/css-modules/issues/58#issuecomment-143685707 
+4. [Radium](/5.4-contacts-radium)
+   - This is like using #2 Inline Styles but it fixes some problems.
+   - Supports `:hover`, `:focus`, and `:active`
+   - Supports media queries
+   - Supports using an array of styles
+   - http://stack.formidable.com/radium/
+   - Not sure how to handle child selectors (same for regular inline style)
+   - Doesn't support `:before`, `:after`, `:checked`, or `:last`
+     [Radium FAQ](https://github.com/FormidableLabs/radium/tree/master/docs/faq#how-do-i-use-pseudo-selectors-like-checked-last-before-or-after)
+     [Stack Overflow answer](http://stackoverflow.com/questions/28269669/css-pseudo-elements-in-react)
+
+
 ### My experiments
 
 1. [Reddit w/ Router, SCSS, DevTools](/9.1-mash)
