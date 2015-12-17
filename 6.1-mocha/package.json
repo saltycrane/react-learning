@@ -1,0 +1,27 @@
+{
+  "name": "1.0-webpack-react-hot-loader",
+  "version": "1.0.0",
+  "description": "Overview --------",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "0.14.3",
+    "react-dom": "0.14.3"
+  },
+  "devDependencies": {
+    "babel-core": "6.1.4",
+    "babel-loader": "6.1.0",
+    "babel-preset-es2015": "6.1.4",
+    "babel-preset-react": "6.1.4",
+    "mocha": "2.3.4",
+    "react-addons-test-utils": "0.14.3",
+    "react-hot-loader": "1.3.0",
+    "webpack": "1.12.4",
+    "webpack-dev-server": "1.12.1"
+  }
+}
