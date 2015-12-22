@@ -52,6 +52,10 @@ This is code for tutorials I do as I learn React et al. Uses Webpack, React Hot 
      [Radium FAQ](https://github.com/FormidableLabs/radium/tree/master/docs/faq#how-do-i-use-pseudo-selectors-like-checked-last-before-or-after)
      [Stack Overflow answer](http://stackoverflow.com/questions/28269669/css-pseudo-elements-in-react)
 
+### Testing
+
+1. [Simple Mocha React example](/6.1-mocha)
+2. [Karma Mocha Chai React example](/6.2-karma-mocha-chai)
 
 ### My experiments
 

@@ -28,6 +28,10 @@ INDEX_TEMPLATE = """\
 def main():
     links = []
     for path in os.listdir('.'):
+        if path.startswith('6.'):
+            # skip testing examples
+            continue
+
         if os.path.isdir(path) and not path.startswith('.'):
             if os.path.exists('%s/dist' % path):
                 os.system('mkdir -p dist/%s' % path)
