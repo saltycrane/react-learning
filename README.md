@@ -18,7 +18,11 @@ This is code for tutorials I do as I learn React et al. Uses Webpack, React Hot 
 
 ### Styling Comparison
 
-1. [CSS Stylesheet](/5.1-contacts-css)
+I took some existing CSS and HTML and created some example code for 3 additional different styling methods: Inline Style in JS, CSS Modules, and Radium.
+
+NOTE: the original CSS and HTML was done by my co-workers-- it is not my own code.
+
+1. [CSS Stylesheet (original)](/5.1-contacts-css)
    - Uses normal CSS (Sass) stylesheets
    - CSS classes are set using the `className` attribute of React elements
 2. [Inline Style in JS](/5.2-contacts-inline-style)
