@@ -1,29 +1,10 @@
 /* global __DEV__ */
-import { createStore, applyMiddleware, compose } from "redux";
-import { devTools, persistState } from "redux-devtools";
-import thunkMiddleware from "redux-thunk";
-import createLogger from "redux-logger";
-
-import rootReducer from "./reducers";
-
-let finalCreateStore;
-const loggerMiddleware = createLogger();
-
 if (__DEV__) {
-    finalCreateStore = compose(
-        applyMiddleware(
-            thunkMiddleware,
-            loggerMiddleware
-        ),
-        devTools(),
-        persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    )(createStore);
+    // use CommonJS `require` instead of ES6 `import` because the
+    // latter is not allowed inside an if statement.
+    // Uglify will remove dead code branches from the Webpack bundle.
+    // https://github.com/gaearon/redux-devtools#exclude-devtools-from-production-builds
+    module.exports = require("./configureStore.dev");
 } else {
-    finalCreateStore = applyMiddleware(
-        thunkMiddleware
-    )(createStore);
-}
-
-export default function configureStore(initialState) {
-    return finalCreateStore(rootReducer, initialState);
+    module.exports = require("./configureStore.prod");
 }
