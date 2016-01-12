@@ -15,7 +15,8 @@ class EditCommentContainer extends Component {
             params: { id },
             actions,
             comments,
-            images
+            images,
+            location
         } = this.props;
         const commentObj = comments.find( item => item.objectId === id );
         let element = null;
@@ -32,6 +33,7 @@ class EditCommentContainer extends Component {
                         <CommentForm
                             commentObj={commentObj}
                             images={images}
+                            location={location}
                             actions={actions}
                             isEditView={true}
                         />

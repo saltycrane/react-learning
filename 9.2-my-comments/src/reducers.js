@@ -4,7 +4,11 @@ import {
     RECEIVE_COMMENT,
     DELETE_COMMENT,
     RECEIVE_IMAGE,
-    DELETE_IMAGE
+    DELETE_IMAGE,
+    GET_LOCATION_SUCCESS,
+    SET_LOCATION_FROM_USER_INPUT,
+    SET_LOCATION_FROM_DETECTED,
+    UNDO_SET_LOCATION
 } from "./actions";
 
 
@@ -149,9 +153,44 @@ function images(state = {
     }
 }
 
+// geolocation data
+function location(state = {
+    lat: null,
+    lon: null,
+    text: null,
+    prevText: null
+}, action) {
+    let text;
+
+    switch (action.type) {
+        case GET_LOCATION_SUCCESS:
+            return Object.assign({}, state, {
+                lat: action.lat,
+                lon: action.lon
+            });
+        case SET_LOCATION_FROM_USER_INPUT:
+            return Object.assign({}, state, {
+                text: action.locationText
+            });
+        case SET_LOCATION_FROM_DETECTED:
+            text = state.lat + "," + state.lon;
+            return Object.assign({}, state, {
+                text: text,
+                prevText: state.text
+            });
+        case UNDO_SET_LOCATION:
+            return Object.assign({}, state, {
+                text: state.prevText
+            });
+        default:
+            return state;
+    }
+}
+
 export default function rootReducer(state = {}, action) {
     return {
         comments: comments(state.comments, action),
-        images: images(state.images, action)
+        images: images(state.images, action),
+        location: location(state.location, action)
     };
 }

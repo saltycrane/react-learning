@@ -11,7 +11,7 @@ class CommentsContainer extends Component {
         actions.fetchComments();
     }
     render() {
-        const { comments, actions } = this.props;
+        const { comments, location, actions } = this.props;
 
         return (
             <div className="commentBox">
@@ -25,6 +25,7 @@ class CommentsContainer extends Component {
                     <div className="well">
                         <CommentForm
                             commentObj={{} /* when adding new comments, commentObj is empty */}
+                            location={location}
                             actions={actions}
                         />
                     </div>

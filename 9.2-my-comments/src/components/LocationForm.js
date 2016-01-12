@@ -6,54 +6,25 @@ import StaticMap from "./StaticMap";
 export default class LocationForm extends Component {
     constructor(props) {
         super(props);
-        const { initialLocationText } = props;
-        this.state = {
-            lat: null,
-            lon: null,
-            locationText: initialLocationText,
-            prevLocationText: initialLocationText
-        };
         this._handleLocationChange = this._handleLocationChange.bind(this);
-        this._handleGetLocation = this._handleGetLocation.bind(this);
-        this._handleUndo = this._handleUndo.bind(this);
     }
     componentDidMount() {
-        this._getLocation();
-    }
-    _getLocation() {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                this.setState({
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude
-                });
-            },
-            err => {
-                console.error(`ERROR(${err.code}): ${err.message}`);
-            },
-            {
-                enableHighAccuracy: true
-            }
-        );
+        const { initialLocationText, actions } = this.props;
+        actions.setLocationFromUserInput(initialLocationText);
+        actions.getLocation();
     }
     _handleLocationChange(e) {
-        this.setState({locationText: e.target.value});
-    }
-    _handleGetLocation(e) {
-        e.preventDefault();
-        this._getLocation();
-        const locationText = this.state.lat + "," + this.state.lon;
-        this.setState({
-            prevLocationText: this.state.locationText,
-            locationText: locationText
-        });
-    }
-    _handleUndo(e) {
-        e.preventDefault();
-        this.setState({locationText: this.state.prevLocationText});
+        const { actions } = this.props;
+        actions.setLocationFromUserInput(e.target.value);
     }
     render() {
-        const { locationText } = this.state;
+        const {
+            location: {
+                text: locationText
+            },
+            actions
+        } = this.props;
+
         return (
             <div className="row">
                 <div className="col-md-6">
@@ -69,11 +40,13 @@ export default class LocationForm extends Component {
                             />
                             <button
                                 className="btn btn-default margin-sm-right"
-                                onClick={this._handleGetLocation}
+                                type="button"
+                                onClick={actions.setLocationFromDetected}
                             >Get Location</button>
                             <button
                                 className="btn btn-default"
-                                onClick={this._handleUndo}
+                                type="button"
+                                onClick={actions.undoSetLocation}
                             >Undo</button>
                         </div>
                     </div>

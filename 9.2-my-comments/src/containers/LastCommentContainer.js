@@ -9,12 +9,14 @@ class LastCommentContainer extends Component {
     componentDidMount() {
         const { actions } = this.props;
         actions.fetchComments();
+        actions.getLocation();
     }
     render() {
         const {
             actions,
             comments,
-            images
+            images,
+            location
         } = this.props;
         const comment = comments[comments.length - 1];
         let element = null;
@@ -35,6 +37,7 @@ class LastCommentContainer extends Component {
                     <div className="well">
                         <CommentForm
                             commentObj={{} /* when adding new comments, commentObj is empty */}
+                            location={location}
                             actions={actions}
                         />
                     </div>

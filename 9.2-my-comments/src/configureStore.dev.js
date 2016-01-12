@@ -11,8 +11,8 @@ const loggerMiddleware = createLogger();
 
 const finalCreateStore = compose(
     applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
+        thunkMiddleware
+        // loggerMiddleware
     ),
     DevTools.instrument(),
     persistState(getDebugSessionKey())
@@ -26,11 +26,11 @@ function getDebugSessionKey() {
 export default function configureStore(initialState) {
     const store = finalCreateStore(rootReducer, initialState);
 
-    // if (module.hot) {
-    //   module.hot.accept("./reducers", () =>
-    //     store.replaceReducer(require("./reducers"))
-    //   );
-    // }
+    if (module.hot) {
+      module.hot.accept("./reducers", () =>
+        store.replaceReducer(require("./reducers").default)
+      );
+    }
 
     return store;
 }

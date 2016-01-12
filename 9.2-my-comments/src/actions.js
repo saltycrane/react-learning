@@ -11,6 +11,11 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const SAVE_IMAGE = "SAVE_IMAGE";
 export const RECEIVE_IMAGE = "RECEIVE_IMAGE";
 export const DELETE_IMAGE = "DELETE_IMAGE";
+export const GET_LOCATION = "GET_LOCATION";
+export const GET_LOCATION_SUCCESS = "GET_LOCATION_SUCCESS";
+export const SET_LOCATION_FROM_USER_INPUT = "SET_LOCATION_FROM_USER_INPUT";
+export const SET_LOCATION_FROM_DETECTED = "SET_LOCATION_FROM_DETECTED";
+export const UNDO_SET_LOCATION = "UNDO_SET_LOCATION";
 
 // ================
 // private functions
@@ -86,6 +91,21 @@ function _shouldFetch(state) {
     }
 }
 
+function _getLocation() {
+    return {
+        type: GET_LOCATION
+    };
+}
+
+// coords: {latitude, longitude}
+function _getLocationSuccess(coords) {
+    return {
+        type: GET_LOCATION_SUCCESS,
+        lat: coords.latitude,
+        lon: coords.longitude
+    };
+}
+
 // ================
 // public functions
 // ================
@@ -134,5 +154,46 @@ export function deleteImage(id, comment) {
         dispatch(_deleteImage(id, newComment));
         parse.deleteImage(id);
         parse.saveComment(newComment);
+    };
+}
+
+// locationText: string
+export function setLocationFromUserInput(locationText) {
+    return {
+        type: SET_LOCATION_FROM_USER_INPUT,
+        locationText: locationText
+    };
+}
+
+export function setLocationFromDetected() {
+    // perform a getLocation() for next time around.
+    // not sure the best way to handle this.
+    getLocation();
+
+    return {
+        type: SET_LOCATION_FROM_DETECTED
+    };
+}
+
+export function undoSetLocation() {
+    return {
+        type: UNDO_SET_LOCATION
+    };
+}
+
+export function getLocation() {
+    return dispatch => {
+        dispatch(_getLocation());
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                dispatch(_getLocationSuccess(position.coords));
+            },
+            err => {
+                console.error(`ERROR(${err.code}): ${err.message}`);
+            },
+            {
+                enableHighAccuracy: true
+            }
+        );
     };
 }

@@ -56,7 +56,7 @@ export default class CommentForm extends Component {
         }
     }
     render() {
-        const { commentObj, images, actions, isEditView = false } = this.props;
+        const { commentObj, images, location, actions, isEditView = false } = this.props;
         let cancelButton = null;
 
         if (isEditView) {
@@ -90,6 +90,8 @@ export default class CommentForm extends Component {
                         ref={(c) => this._textInput = c} />
                 </div>
                 <LocationForm
+                    location={location}
+                    actions={actions}
                     initialLocationText={commentObj.location}
                     ref={(c) => this._locationForm = c}
                 />

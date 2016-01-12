@@ -8,7 +8,11 @@ import {
     editComment,
     cancelEditComment,
     saveImage,
-    deleteImage
+    deleteImage,
+    getLocation,
+    setLocationFromUserInput,
+    setLocationFromDetected,
+    undoSetLocation
 } from "../actions";
 
 
@@ -17,7 +21,8 @@ function mapStateToProps(state) {
         isFetching: state.comments.isFetching,
         lastUpdated: state.comments.lastUpdated,
         comments: state.comments.items,
-        images: state.images.items
+        images: state.images.items,
+        location: state.location
     };
 }
 
@@ -30,7 +35,11 @@ function mapDispatchToProps(dispatch) {
             editComment,
             cancelEditComment,
             saveImage,
-            deleteImage
+            deleteImage,
+            getLocation,
+            setLocationFromUserInput,
+            setLocationFromDetected,
+            undoSetLocation
         }, dispatch)
     };
 }
