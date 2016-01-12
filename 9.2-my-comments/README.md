@@ -38,9 +38,6 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
  - sorting
  - animation for add and delete
  - add backend rendering support for each route
- - fix warning about setState on CommentForm
-   (this is due to geo callback running after navigating away from the view)
-   put the geolocation in Redux instead of the component state
  - rethink data model
  - allow adding images from initial "Add a comment" form (currently need to edit existing comment)
  - authentication (https)
