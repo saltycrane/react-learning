@@ -30,6 +30,7 @@ NOTE: the original CSS and HTML was done by my co-workers-- it is not my own cod
    - Doesn't support `:hover` or other pseudo selectors
    - Doesn't support media queries
    - https://facebook.github.io/react/tips/inline-styles.html
+   - http://blog.vjeux.com/2014/javascript/react-css-in-js-nationjs.html
    - https://www.youtube.com/watch?v=ERB1TJBn32c
 3. [CSS Modules](/5.3-contacts-css-modules)
    - CSS is used but definitions are local to a module
