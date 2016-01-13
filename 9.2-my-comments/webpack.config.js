@@ -62,7 +62,7 @@ if (TARGET === "start" || !TARGET) {
                 },
                 {
                     test: /\.js$/,
-                    loaders: ["react-hot", "babel"],
+                    loaders: ["babel"],
                     include: APP_PATH
                 }
             ]
