@@ -37,6 +37,7 @@ class LastCommentContainer extends Component {
                     <div className="well">
                         <CommentForm
                             commentObj={{} /* when adding new comments, commentObj is empty */}
+                            images={images}
                             location={location}
                             actions={actions}
                         />

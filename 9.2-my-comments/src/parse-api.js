@@ -23,8 +23,21 @@ export function getComments(callback) {
 
 export function saveComment(data, callback) {
     let comment = new Comment();
+    // "unsaved images" are images that are not yet saved with a comment
+    const unsavedImages = data.images.filter(function (item) {
+        return !item.commentId;
+    });
+
     comment.save(data)
         .done(function(object) {
+            const commentId = object.id;
+
+            // update the commentId field for any images that do not have
+            // a commentId yet ("unsaved images")
+            unsavedImages.forEach(function (image) {
+                linkImageToComment(image, commentId);
+            });
+
             if (callback) {
                 callback(object.toJSON());
             }
@@ -40,18 +53,23 @@ export function deleteComment(id) {
 
 // first save the File object, then store the file in the Image table
 // file - a file object uploaded via a file <input>
-export function saveImage(file, commentId, callback) {
+export function saveImage(file, callback) {
     let parseFile = new Parse.File(file.name, file);
     parseFile.save()
         .done(function() {
             let image = new Image();
             image.save({
-                file: parseFile,
-                commentId: commentId
+                file: parseFile
             }).done(function(object) {
                 callback(object.toJSON());
             });
         });
+}
+
+export function linkImageToComment(imageData, commentId) {
+    let image = new Image();
+    imageData.commentId = commentId;
+    image.save(imageData);
 }
 
 export function deleteImage(id) {

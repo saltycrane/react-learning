@@ -10,7 +10,8 @@ export const RECEIVE_COMMENT = "RECEIVE_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const SAVE_IMAGE = "SAVE_IMAGE";
 export const RECEIVE_IMAGE = "RECEIVE_IMAGE";
-export const DELETE_IMAGE = "DELETE_IMAGE";
+export const DELETE_SAVED_IMAGE = "DELETE_SAVED_IMAGE";
+export const DELETE_UNSAVED_IMAGE = "DELETE_UNSAVED_IMAGE";
 export const GET_LOCATION = "GET_LOCATION";
 export const GET_LOCATION_SUCCESS = "GET_LOCATION_SUCCESS";
 export const SET_LOCATION_FROM_USER_INPUT = "SET_LOCATION_FROM_USER_INPUT";
@@ -62,11 +63,18 @@ function _receiveImage(image) {
     };
 }
 
-function _deleteImage(id, comment) {
+function _deleteSavedImage(id, comment) {
     return {
-        type: DELETE_IMAGE,
+        type: DELETE_SAVED_IMAGE,
         id: id,
         comment: comment
+    };
+}
+
+function _deleteUnsavedImage(id) {
+    return {
+        type: DELETE_UNSAVED_IMAGE,
+        id: id
     };
 }
 
@@ -137,23 +145,33 @@ export function deleteComment(id, isDetailView = false) {
     };
 }
 
-export function saveImage(file, commentId) {
+export function saveImage(file) {
     return dispatch => {
-        parse.saveImage(file, commentId, image => dispatch(_receiveImage(image)));
+        parse.saveImage(file, image => dispatch(_receiveImage(image)));
     };
 }
 
 // delete the Image row and update the Comment images list
-export function deleteImage(id, comment) {
+// a "saved image" means an image saved with a comment
+export function deleteSavedImage(id, comment) {
     const images = comment.images.filter(item => item.objectId !== id);
     let newComment = Object.assign({}, comment, {
         images: images
     });
 
     return dispatch => {
-        dispatch(_deleteImage(id, newComment));
+        dispatch(_deleteSavedImage(id, newComment));
         parse.deleteImage(id);
         parse.saveComment(newComment);
+    };
+}
+
+// delete the Image row
+// an "unsaved image" means an image not saved with a comment
+export function deleteUnsavedImage(id) {
+    return dispatch => {
+        dispatch(_deleteUnsavedImage(id));
+        parse.deleteImage(id);
     };
 }
 

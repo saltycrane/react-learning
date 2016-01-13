@@ -39,5 +39,4 @@ http://saltycrane.github.io/react-learning/9.2-my-comments
  - animation for add and delete
  - add backend rendering support for each route
  - rethink data model
- - allow adding images from initial "Add a comment" form (currently need to edit existing comment)
  - authentication (https)

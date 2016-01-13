@@ -3,7 +3,7 @@ import React, { Component } from "react";
 
 class DeletableImage extends Component {
     render() {
-        const { image, commentObj, actions } = this.props;
+        const { image, onDelete } = this.props;
 
         return (
             <div className="img-container">
@@ -13,7 +13,7 @@ class DeletableImage extends Component {
                 />
                 <span
                     className="btn-delete btn btn-default"
-                    onClick={() => actions.deleteImage(image.objectId, commentObj)}
+                    onClick={onDelete}
                 >
                     <i className="fa fa-times"></i>
                 </span>
@@ -28,28 +28,22 @@ export default class ImageForm extends Component {
         this._handleFileChange = this._handleFileChange.bind(this);
     }
     _handleFileChange(e) {
-        const { commentObj, actions } = this.props;
+        const { actions } = this.props;
         const file = e.target.files[0];
-        actions.saveImage(file, commentObj.objectId);
+        actions.saveImage(file);
     }
     _renderFileInput() {
-        const { commentObj } = this.props;
-
-        if (commentObj.objectId) {
-            return (
-                <div className="form-group">
-                    <label>Add Image</label>
-                    <input
-                        className="form-control"
-                        type="file"
-                        onChange={this._handleFileChange}
-                        ref={(c) => this._fileInput = c}
-                    />
-                </div>
-            );
-        } else {
-            return null;
-        }
+        return (
+            <div className="form-group">
+                <label>Add Image</label>
+                <input
+                    className="form-control"
+                    type="file"
+                    onChange={this._handleFileChange}
+                    ref={(c) => this._fileInput = c}
+                />
+            </div>
+        );
     }
     _renderImages() {
         const { commentObj, images, actions } = this.props;
@@ -62,8 +56,7 @@ export default class ImageForm extends Component {
                     <DeletableImage
                         key={image.objectId}
                         image={image}
-                        commentObj={commentObj}
-                        actions={actions}
+                        onDelete={() => actions.deleteSavedImage(image.objectId, commentObj)}
                     />
                 );
             });
@@ -74,8 +67,7 @@ export default class ImageForm extends Component {
                     <DeletableImage
                         key={image.objectId}
                         image={image}
-                        commentObj={commentObj}
-                        actions={actions}
+                        onDelete={() => actions.deleteUnsavedImage(image.objectId)}
                     />
                 );
             });

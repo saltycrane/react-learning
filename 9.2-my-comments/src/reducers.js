@@ -4,7 +4,8 @@ import {
     RECEIVE_COMMENT,
     DELETE_COMMENT,
     RECEIVE_IMAGE,
-    DELETE_IMAGE,
+    DELETE_SAVED_IMAGE,
+    DELETE_UNSAVED_IMAGE,
     GET_LOCATION_SUCCESS,
     SET_LOCATION_FROM_USER_INPUT,
     SET_LOCATION_FROM_DETECTED,
@@ -114,7 +115,7 @@ function comments(state = {
             return Object.assign({}, state, {
                 items: state.items.filter(item => item.objectId !== action.id)
             });
-        case DELETE_IMAGE:
+        case DELETE_SAVED_IMAGE:
             // remove image from the comment's images list.
             return Object.assign({}, state, {
                 items: _updateItem(state.items, action.comment.objectId, action.comment)
@@ -142,7 +143,7 @@ function images(state = {
             return Object.assign({}, state, {
                 items: []
             });
-        case DELETE_IMAGE:
+        case DELETE_UNSAVED_IMAGE:
             // remove an image from the list after deleting
             // NOTE: this does not wait for confirmation from the API
             return Object.assign({}, state, {
