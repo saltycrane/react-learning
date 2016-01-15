@@ -47,6 +47,12 @@ if (TARGET === "start" || !TARGET) {
             progress: true,
             port: 3000
         },
+        // to specify options (in particular the editor) for redbox-react for react-transform-catch-errors for babel-plugin-react-transform
+        resolve: {
+            alias: {
+                reporterOptions: path.join(__dirname, "reporterOptions.js")
+            }
+        },
         plugins: [
             new webpack.DefinePlugin({
                 __DEV__: true
