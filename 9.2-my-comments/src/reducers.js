@@ -1,3 +1,5 @@
+import { routeReducer } from "react-router-redux";
+
 import {
     REQUEST_COMMENTS,
     RECEIVE_COMMENTS,
@@ -190,6 +192,7 @@ function location(state = {
 
 export default function rootReducer(state = {}, action) {
     return {
+        routing: routeReducer(state.routing, action),
         comments: comments(state.comments, action),
         images: images(state.images, action),
         location: location(state.location, action)

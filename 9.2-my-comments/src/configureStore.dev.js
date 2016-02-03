@@ -1,18 +1,19 @@
+import { syncHistory } from 'react-router-redux';
 import { createStore, applyMiddleware, compose } from "redux";
 import { persistState } from "redux-devtools";
-import createLogger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
 import DevTools from "./containers/DevTools";
+import history from "./history";
 import rootReducer from "./reducers";
 
 
-const loggerMiddleware = createLogger();
+const reduxRouterMiddleware = syncHistory(history);
 
 const finalCreateStore = compose(
     applyMiddleware(
+        reduxRouterMiddleware,
         thunkMiddleware
-        // loggerMiddleware
     ),
     DevTools.instrument(),
     persistState(getDebugSessionKey())
